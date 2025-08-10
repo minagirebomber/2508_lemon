@@ -1,15 +1,5 @@
 let currentQuestion = 0;
 let score = 0;
-let quizData =  [
-    {
-      question: "Abm7",
-      answer: "B"
-    },
-    {
-      question: "F△7",
-      answer: "A"
-    }
-];
 
 const questionEl = document.getElementById("question");
 const resultEl = document.getElementById("result");
@@ -24,7 +14,6 @@ let isAnsweringAllowed = true; // 回答可能フラグ
 const correctAreaWidth=40;
 const correctAreaHeight=30;
 
-
 const orgX=50;
 const orgY=0;
 const offsetunitX=60; // フレット数が1増えるあたりのずらし幅。
@@ -37,8 +26,6 @@ const offsetunitY=28;// 弦が1本ずれるあたりのずらし幅。
 // 常にそろえるよう注意
 const imgW = quizImage.clientWidth;//313
 const imgH = quizImage.clientHeight;//181
-
-// y  20 50 80
 
 // setAnsParam配下で決める変数
 let fretnum=3;
@@ -72,7 +59,7 @@ function hideCorrectArea() {
 //////////////////////
 {
   function strfrettoCorrectArea(){
-    correctArea.xMin= orgX  + offsetunitX * fretnum;
+    correctArea.xMin= orgX  + offsetunitX * (fretnum - 3);
     correctArea.yMin= orgY  + offsetunitY * stringnum;
   }
 }
@@ -129,7 +116,7 @@ function getStrFret(note, lfret, rfret){
 // noteからcorrectArea設定
 //////////////////////
 function applynote(note){
-  getStrFret(note, 0, 3);
+  getStrFret(note, 3, 7);
   strfrettoCorrectArea();
 }
 
@@ -203,8 +190,6 @@ function handleTimeout() {
     nextBtn.style.display = "block";
 }
 
-// 最初の問題を表示
-showQuestion();
 
 nextBtn.onclick = () => {
   currentQuestion++;
@@ -222,3 +207,54 @@ function showResult() {
   nextBtn.style.display = "none";
   isAnsweringAllowed=false;
 }
+
+////////////////////
+// クイズをランダムで生成
+////////////////////
+const NotoNote=[
+  'A',
+  'Bb',
+  'B',
+  'C',
+  'Db',
+  'D',
+  'Eb',
+  'E',
+  'F',
+  'Gb',
+  'G',
+  'Ab',
+];
+const NotoQual=["m7b5", "m7", "7","△7"];
+const qnum=10;
+let quizData=Array.from({length:qnum}, (_, index)=>({question:"", answer:""}));
+function generateQuiz(){
+  for(let i=0;i<qnum;i++){
+    //ランダムに考える
+    // 基音を決定
+    let noteparam=Math.floor(Math.random()*12)
+    let rootNote=NotoNote[noteparam];
+
+    // コードクオリティを決定
+    // Φ, m7, 7, △7のどれか
+    let Qualparam=Math.floor(Math.random()*4);
+    let chordQual=NotoQual[Qualparam];
+
+    // 正解を算出
+    let ansoft=0;
+    if (Qualparam == 0 || Qualparam == 1){
+      ansoft=3
+    }else if(Qualparam==2||Qualparam==3){
+      ansoft=4;
+    }
+
+    // 配列に詰める
+    quizData[i].question=rootNote+chordQual;
+    quizData[i].answer=NotoNote[(noteparam+ansoft)%12];
+  }
+}
+
+generateQuiz();
+
+// 最初の問題を表示
+showQuestion();

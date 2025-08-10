@@ -1,0 +1,14 @@
+const NotoFret=[[{string:0,fret:0},{string:1,fret:0},{string:2,fret:0},{string:3,fret:0},{string:4,fret:0},{string:5,fret:0}]]*12;
+{
+  const org=[5,10,2,7,0,5];
+  const NotoFretwork=[{string:0,fret:0},{string:1,fret:0},{string:2,fret:0},{string:3,fret:0},{string:4,fret:0},{string:5,fret:0},];
+  // 最初に一回だけ呼び出す
+  function setNotoFret(){
+    for (let i = 0; i < 12; i++) {
+      for(let j=0;j<6;j++){  
+        NotoFret[i][j].fret=(org[j] + i) % 12;
+      }
+    }
+  }
+  setNotoFret();
+}

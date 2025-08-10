@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クイズゲーム</title>
+  <link rel="stylesheet" href="quiz_style.css">
+</head>
+<body>
+  <h1>🎯 クイズゲーム 🎯</h1>
+  <div id="quiz-container">
+    <div class="question" id="question">読み込み中...</div>
+    <div class="result" id="result"></div>
+    <div id="timer" style="font-weight: bold; margin-top: 10px;"></div>
+    
+    <div style="position: relative; display: inline-block;">
+      <img id="quiz-image" src="fretboard.jpg" alt="クイズ画像" style="max-width: 100%; cursor: pointer;">
+      <div id="correctArea"></div>
+    </div>
+    
+    <br>
+    <button class="btn" id="next-btn" style="display: none;">次の問題 ▶</button>
+
+  </div>
+  <script src="image_quiz.js"></script>
+</body>
+</html>
